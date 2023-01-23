@@ -18,11 +18,12 @@ Create an full DE project to get all games from selected players of Chess.com, p
 3. requests
 
 #How to run the main code:
-1. Inside the DE_PROJECT older create 2 new empty folder called: 
-  1.1 png_df
-  1.2 raw_chess_player_data
-2. Choose the chess player name (needs to be the nickname of Chess.com) and substitute all lpsupi in the main.py file
-3. Run the code and make your analysis
+1. Create a folder named: DE_PROJECT and put all files inside this folder.
+2. Inside the DE_PROJECT older create 2 new empty folder called: 
+  2.1 png_df
+  2.2 raw_chess_player_data
+3. Choose the chess player name (needs to be the nickname of Chess.com) and substitute all lpsupi in the main.py file
+4. Run the code and make your analysis
 
 Any questions? 
 Contact me: https://www.linkedin.com/in/gustavoesantos/
