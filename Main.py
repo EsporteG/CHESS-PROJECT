@@ -5,10 +5,10 @@ from config import chess_players
 
 folder_creation()
 
-'''for player in chess_players:
+for player in chess_players:
 
     archive_list = archive_game_list(player)
     matches = chess_matches(archive_list,player)
-    '''
+
 for player in chess_players:
     extract_png_df('{}_archive.xlsx'.format(player),player)
