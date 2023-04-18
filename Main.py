@@ -2,13 +2,19 @@ from folders_set_up import folder_creation
 from Chess_com_archive import archive_game_list, chess_matches
 from chess_pos_processing import extract_png_df
 from config import chess_players
+from S3_functions import upload_raw_files
+from dotenv import load_dotenv
+import os
 
-folder_creation()
+load_dotenv() 
+
+Bucket = os.environ.get('Bucket')
 
 for player in chess_players:
 
     archive_list = archive_game_list(player)
-    matches = chess_matches(archive_list,player)
+    matches,player = chess_matches(archive_list,player)
+    upload_raw_files(Bucket_name=Bucket,df=matches,player_name=player)
 
-for player in chess_players:
-    extract_png_df('{}_archive.xlsx'.format(player),player)
+'''for player in chess_players:
+    extract_png_df('{}_archive.xlsx'.format(player),player)'''
