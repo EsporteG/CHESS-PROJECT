@@ -26,12 +26,13 @@ def upload_raw_files(Bucket_name,file_name):
     )
 
 df = pd.read_excel('raw_chess_players_data\lpsupi_archive.xlsx')
-session = boto3.Session(
+s3 = boto3.client(
+    's3',
+    region_name=region_name,
     aws_access_key_id=aws_access_key_id,
     aws_secret_access_key= aws_secret_access_key
     )
-s3 = session.resource('s3')
-file = s3.Object(Bucket_name,"text.xlsx")
-file.put(Body=df)
+
+df.to_excel("s3://raw-chess-players-games/lpsupi_archive2.xlsx")
 
 
