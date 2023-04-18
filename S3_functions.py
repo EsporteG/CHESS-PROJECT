@@ -1,7 +1,7 @@
 import boto3
 import os
 from dotenv import load_dotenv
-
+import awswrangler as wr
 import pandas as pd
 
 load_dotenv() 
@@ -26,13 +26,13 @@ def upload_raw_files(Bucket_name,file_name):
     )
 
 df = pd.read_excel('raw_chess_players_data\lpsupi_archive.xlsx')
-s3 = boto3.client(
-    's3',
+session = boto3.Session(
     region_name=region_name,
     aws_access_key_id=aws_access_key_id,
     aws_secret_access_key= aws_secret_access_key
     )
+s3 = session.resource('s3')
 
-df.to_excel("s3://raw-chess-players-games/lpsupi_archive2.xlsx")
+wr.s3.to_excel(df, 's3://raw-chess-players-games/lpsupi_archive2.xlsx', index=False)
 
 
