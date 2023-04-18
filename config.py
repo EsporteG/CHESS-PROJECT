@@ -5,5 +5,7 @@ folders = [
     ]
 
 chess_players = [
-    "lpsupi"
+    "lpsupi",
+    "GMKrikor",
+    "GMRafpig"
 ]
