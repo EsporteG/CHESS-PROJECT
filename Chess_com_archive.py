@@ -2,8 +2,6 @@ import pandas as pd
 import requests
 import os
 
-#testando git na VM
-
 def archive_game_list(player_name):
     print(f"Extraction of {player_name} process started...")
     url = f'https://api.chess.com/pub/player/{player_name}/games/archives'
