@@ -17,4 +17,4 @@ def upload_raw_files(Bucket_name, df, player_name):
         )
     s3 = session.resource('s3')
     s3.create_bucket(Bucket=Bucket_name)
-    wr.s3.to_excel(df, 's3://{}/{}_raw.xlsx'.format(Bucket_name,player_name), index=False)
+    wr.s3.to_csv(df, 's3://{}/{}_raw.csv'.format(Bucket_name,player_name), index=False)
