@@ -1,9 +1,9 @@
 import pandas as pd
 import os
 
-def extract_png_df(raw_file, player_name_pos):
-    print("PGN data extraction started...")
-    df = pd.read_excel(f'./raw_chess_players_data/{raw_file}')
+def extract_png_df(df):
+    print(f"---Transform: Extract PGN data process started...")
+    df = df
     df = df.dropna(subset=['pgn'])
     df = list(df['pgn'])
     df = list(map(lambda value: value.split('\n\n')[0].split('\n'), df))
@@ -22,7 +22,5 @@ def extract_png_df(raw_file, player_name_pos):
         df['match id'] = i
         i=i+1
         df_final = pd.concat([df_final,df])
-    os.chdir('./pgn_players')
-    df_final.to_excel(f'{player_name_pos}_pgn.xlsx')
-    os.chdir('../')
-    return print(f"PGN data of {player_name_pos} exported!")
+        print(f"---Transform: Extract PGN data process complete...")
+    return df_final
