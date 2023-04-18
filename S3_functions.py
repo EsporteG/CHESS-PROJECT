@@ -31,4 +31,5 @@ def upload_pgn_files(Bucket_name, df, player_name):
     s3 = session.resource('s3')
     s3.create_bucket(Bucket=Bucket_name)
     wr.s3.to_csv(df, 's3://{}/{}_pgn.csv'.format(Bucket_name,player_name), index=False)
-    return print(f"---Load PGN data process complete...")
+    print(f"---Load PGN data process complete...")
+    return print(f"--------------------------ETL Complete---------------------------")

@@ -3,7 +3,7 @@ import requests
 
 
 def archive_game_list(player_name):
-    print(f"---------ETL {player_name} Games---------")
+    print(f"---------------------ETL {player_name} Games---------------------")
     print(f"---Extraction process started...")
     url = f'https://api.chess.com/pub/player/{player_name}/games/archives'
     game_list = requests.get(url).json()['archives']
