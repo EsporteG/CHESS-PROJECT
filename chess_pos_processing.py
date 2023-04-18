@@ -1,5 +1,9 @@
 import pandas as pd
+from dotenv import load_dotenv
 import os
+
+load_dotenv() 
+columns_pgn = os.environ.get('columns_pgn')
 
 def extract_png_df(df):
     print(f"---Transform: Extract PGN data process started...")
@@ -13,8 +17,8 @@ def extract_png_df(df):
         df = list(map(lambda value: value.strip("[").strip("]").strip('\s').rstrip('"').replace(" ","").split('"'), png))
         df_f.append(df)
         i = 1
-    df_final = pd.DataFrame()
 
+    df_final = pd.DataFrame()
     for pgn_pro in df_f:
         df = pd.DataFrame(pgn_pro)
         df = df.transpose()
@@ -22,5 +26,7 @@ def extract_png_df(df):
         df['match id'] = i
         i=i+1
         df_final = pd.concat([df_final,df])
+    df_final = df_final.iloc[:, :-5]
+
     print(f"---Transform: Extract PGN data process complete...")
     return df_final
