@@ -1,6 +1,6 @@
 import pandas as pd
 import requests
-import os
+
 
 def archive_game_list(player_name):
     print(f"Extraction of {player_name} process started...")
