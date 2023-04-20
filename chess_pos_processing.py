@@ -1,6 +1,7 @@
 import pandas as pd
 from dotenv import load_dotenv
 import os
+from config import pgn_columns
 
 load_dotenv() 
 columns_pgn = os.environ.get('columns_pgn')
@@ -26,7 +27,7 @@ def extract_png_df(df):
         df['match id'] = i
         i=i+1
         df_final = pd.concat([df_final,df])
-    #df_final = df_final.iloc[:, :-5]
+    df_final = df_final[pgn_columns]
 
     print(f"---Transform: Extract PGN data process complete...")
     return df_final
