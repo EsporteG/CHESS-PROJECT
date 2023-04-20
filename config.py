@@ -1,5 +1,5 @@
 chess_players = [
-    "lpsupi",
-    "GMKrikor",
-    "GMRafpig"
+    "lpsupi"
+    #,"GMKrikor"
+    #,"GMRafpig"
 ]
