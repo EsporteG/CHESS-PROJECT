@@ -26,7 +26,7 @@ def extract_png_df(df):
         df['match id'] = i
         i=i+1
         df_final = pd.concat([df_final,df])
-    df_final = df_final.iloc[:, :-5]
+    #df_final = df_final.iloc[:, :-5]
 
     print(f"---Transform: Extract PGN data process complete...")
     return df_final
