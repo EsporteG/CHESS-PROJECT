@@ -1,7 +1,7 @@
 import boto3
 import os
 from dotenv import load_dotenv
-
+import awswrangler as wr
 import pandas as pd
 
 load_dotenv() 
@@ -9,30 +9,27 @@ aws_access_key_id = os.environ.get('aws_access_key_id')
 aws_secret_access_key = os.environ.get('aws_secret_access_key')
 region_name = os.environ.get('region_name')
 
-Bucket_name = 'raw-chess-players-games'
-
-def upload_raw_files(Bucket_name,file_name):
-    s3 = boto3.client(
-    's3',
-    region_name=region_name,
-    aws_access_key_id=aws_access_key_id,
-    aws_secret_access_key= aws_secret_access_key
-    )
+def upload_raw_files(Bucket_name, df, player_name):
+    print(f"---Load raw data process started...")
+    session = boto3.Session(
+        region_name=region_name,
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key= aws_secret_access_key
+        )
+    s3 = session.resource('s3')
     s3.create_bucket(Bucket=Bucket_name)
-    s3.upload_file(
-        Filename='raw_chess_players_data\lpsupi_archive.xlsx',
-        Bucket=Bucket_name,
-        Key='lpsupi_archive.xlsx'
-    )
+    wr.s3.to_csv(df, 's3://{}/{}_raw.csv'.format(Bucket_name,player_name), index=False)
+    return print(f"---Load raw data process complete...")
 
-df = pd.read_excel('raw_chess_players_data\lpsupi_archive.xlsx')
-session = boto3.Session(
-    aws_access_key_id=aws_access_key_id,
-    aws_secret_access_key= aws_secret_access_key
-    )
-s3 = session.resource('s3')
-file = s3.Object(Bucket_name,"text.xlsx")
-file.put(Body=df)
-
-#test 2
-#test 3
+def upload_pgn_files(Bucket_name, df, player_name):
+    print(f"---Load PGN data process started...")
+    session = boto3.Session(
+        region_name=region_name,
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key= aws_secret_access_key
+        )
+    s3 = session.resource('s3')
+    s3.create_bucket(Bucket=Bucket_name)
+    wr.s3.to_csv(df, 's3://{}/{}_pgn.csv'.format(Bucket_name,player_name), index=False)
+    print(f"---Load PGN data process complete...")
+    return print(f"--------------------------ETL Complete---------------------------")
