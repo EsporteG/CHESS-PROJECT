@@ -2,8 +2,14 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 from config import pgn_columns
+from S3_functions import s3_key_list
+import awswrangler as wr
 
 load_dotenv() 
+
+region_name = os.environ.get('region_name')
+aws_access_key_id = os.environ.get('aws_access_key_id')
+aws_secret_access_key = os.environ.get('aws_secret_access_key')
 columns_pgn = os.environ.get('columns_pgn')
 
 def extract_png_df(df):
@@ -31,3 +37,18 @@ def extract_png_df(df):
 
     print(f"---Transform: Extract PGN data process complete...")
     return df_final
+
+def tranform_load_pgn(files):
+    s3_client = boto3.client(
+    "s3",
+    aws_access_key_id=aws_access_key_id,
+    aws_secret_access_key=aws_secret_access_key
+    )
+    response = s3_client.get_object(Bucket=Bucket_name, Key=Key)
+    status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
+    if status == 200:
+        print(f"Successful S3 get_object response. Status - {status}")
+        df = pd.read_csv(response.get("Body"))
+    else:
+        print(f"Unsuccessful S3 get_object response. Status - {status}")
+    return df
