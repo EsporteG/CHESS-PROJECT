@@ -40,20 +40,20 @@ def upload_raw_files(Bucket_name, df, player_name):
     wr.s3.to_csv(df, 's3://{}/{}_raw.csv'.format(Bucket_name,player_name), index=False)
     return print(f"---Load raw data process complete...")
 
-def s3_to_df(Bucket_name,Key):
+def s3_key_list(Bucket_name):
     s3_client = boto3.client(
     "s3",
     aws_access_key_id=aws_access_key_id,
     aws_secret_access_key=aws_secret_access_key
     )
-    response = s3_client.get_object(Bucket=Bucket_name, Key=Key)
-    status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
-    if status == 200:
-        print(f"Successful S3 get_object response. Status - {status}")
-        df = pd.read_csv(response.get("Body"))
-    else:
-        print(f"Unsuccessful S3 get_object response. Status - {status}")
-    return df
+
+    files_metadata = s3_client.list_objects(Bucket=Bucket_name)['Contents']
+
+    key_list = []
+
+    for file in files_metadata:
+        key_list.append(file["Key"])
+    return key_list
 
 def upload_pgn_files(Bucket_name, df, player_name):
     print(f"---Load PGN data process started...")
