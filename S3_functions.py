@@ -3,11 +3,13 @@ import os
 from dotenv import load_dotenv
 import awswrangler as wr
 import pandas as pd
+from sqlalchemy import create_engine
 
 load_dotenv() 
 aws_access_key_id = os.environ.get('aws_access_key_id')
 aws_secret_access_key = os.environ.get('aws_secret_access_key')
 region_name = os.environ.get('region_name')
+postgres = os.environ.get('postgress_connection')
 
 def check_bucket_existence(bucket_name):
     buckets_list=[]
@@ -70,4 +72,18 @@ def upload_pgn_files(Bucket_name, df, player_name):
     wr.s3.to_csv(df, 's3://{}/{}_pgn.csv'.format(Bucket_name,player_name), index=False)
     print(f"---Load PGN data process complete...")
     return print(f"--------------------------PGN Load Complete---------------------------")
+
+def load_to_rds(mode='replace', df=None):
+    db = create_engine(postgres)
+    conn = db.connect()
+    df=df
+    with conn.begin() as connection:
+        df.to_sql(
+            name='game_data',
+            con=conn,
+            if_exists=mode,
+            index=False,
+            schema='public',
+            method=None
+        )
 
