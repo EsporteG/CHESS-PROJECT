@@ -1,9 +1,10 @@
 import pandas as pd
 from dotenv import load_dotenv
 import os
-from config import pgn_columns
+from config import pgn_columns,pgn_new_columns
 from S3_functions import s3_key_list
 import awswrangler as wr
+import boto3
 
 load_dotenv() 
 
@@ -34,6 +35,8 @@ def extract_png_df(df):
         i=i+1
         df_final = pd.concat([df_final,df])
     df_final = df_final[pgn_columns]
+    new_columns_name = dict(zip(pgn_columns, pgn_new_columns))
+    df_final = df_final.rename(new_columns_name)
 
     print(f"---Transform: Extract PGN data process complete...")
     return df_final
